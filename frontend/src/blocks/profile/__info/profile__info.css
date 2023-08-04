@@ -1,0 +1,12 @@
+.profile__info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+}
+
+@media screen and (min-width: 1024px) {
+    .profile__info {
+        margin-bottom: 0;
+        margin-left: 30px;
+    }
+}

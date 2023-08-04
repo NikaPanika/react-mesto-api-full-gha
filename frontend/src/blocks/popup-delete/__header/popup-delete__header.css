@@ -1,0 +1,9 @@
+.popup-delete__header{
+    margin: 25px 22px 30px;
+}
+
+@media screen and (min-width: 1024px) {
+    .popup-delete__header{
+        margin: 34px 36px 34px;
+    }
+}

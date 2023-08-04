@@ -1,0 +1,8 @@
+.popup-delete__save-button{
+    margin: 0px 22px 25px;
+}
+@media screen and (min-width: 1024px) {
+    .popup__save-button{
+        margin: 0px 36px 37px;
+    }
+}

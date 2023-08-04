@@ -1,0 +1,12 @@
+.entrance-container__link {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: opacity 0.5s linear;
+}
+
+.entrance-container__link:hover {
+    opacity: 0.6;
+}

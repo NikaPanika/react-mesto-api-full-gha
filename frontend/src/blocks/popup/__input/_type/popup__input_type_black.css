@@ -1,0 +1,7 @@
+.popup__input_type_black {
+    color: #ffffff;
+    border-bottom: 2px rgba(255, 255, 255, 1) solid;
+    background-color: black;
+    width: 358px;
+
+}

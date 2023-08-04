@@ -1,0 +1,6 @@
+.photo-grid__text {
+    display: flex;
+    justify-content: space-between;
+    padding: 22px 19px 24px 21px;
+    align-items: center;
+}
