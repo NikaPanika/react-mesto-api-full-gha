@@ -56,13 +56,13 @@ const login = (req, res, next) => {
             JWT_SECRET,
             { expiresIn: '7d' },
           );
-          res.cookie('jwt', token, {
-            /* httpOnly: false, */
-            maxAge: 3600000 * 24 * 7,
-            sameSite: 'none',
-            secure: true,
-          })
-            .send({ id: user._id });
+          /*  res.cookie('jwt', token, {
+             maxAge: 3600000 * 24 * 7,
+             sameSite: 'none',
+             secure: true,
+           }) */
+          /* .send({ id: user._id }); */
+          return res.send({ jwt: token });
         })
         .catch(next);
     })

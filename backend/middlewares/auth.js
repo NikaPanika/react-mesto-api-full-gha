@@ -1,14 +1,19 @@
 const jwt = require('jsonwebtoken');
 const AuthError = require('../erorrs/authError');
 
+/* const { NODE_ENV } = process.env;
+const { JWT_SECRET } = process.env; */
+
 const JWT_SECRET = 'strange-secret-key';
 
 const auth = (req, res, next) => {
-  const token = req.cookies.jwt;
-
-  if (!token) {
+  const { authorization } = req.headers;
+  /* const token = req.cookies.jwt; */
+  const bearer = 'Bearer ';
+  if (!authorization || !authorization.startsWith(bearer)) {
     throw new AuthError('Сначала авторизируйтесь');
   }
+  const token = authorization.replace(bearer, '');
   let payload;
 
   try {
