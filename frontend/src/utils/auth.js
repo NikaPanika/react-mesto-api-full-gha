@@ -1,5 +1,5 @@
 //export const baseUrl = "https://auth.nomoreparties.co";
-export const baseUrl = "https://localhost:3000";
+export const baseUrl = "http://localhost:3000";
 
 const checkResponce = (res) =>
   res.ok ? res.json() : Promise.reject(res.status);
@@ -29,6 +29,7 @@ export const login = ({ email, password }) => {
 export const checkToken = () => {
   return fetch(`${baseUrl}/users/me`, {
     method: "GET",
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json",
       'Access-Control-Allow-Credentials': 'true'

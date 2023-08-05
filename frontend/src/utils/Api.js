@@ -14,6 +14,7 @@ class Api {
     getUser() {
         return fetch(`${this._commonUrl}/users/me`, {
             method: 'GET',
+            credentials: 'include',// отправить куки вместе с запросом
             headers: this._headers
         }).then(this._checkResponse);
     }
@@ -21,6 +22,7 @@ class Api {
     getInitialCards() {
         return fetch(`${this._commonUrl}/cards`, {
             method: 'GET',
+            credentials: 'include',// отправить куки вместе с запросом
             headers: this._headers
         })
             .then(this._checkResponse);
@@ -29,6 +31,7 @@ class Api {
     setUserInfo(data) {
         return fetch(`${this._commonUrl}/users/me`, {
             method: 'PATCH',
+            credentials: 'include',// отправить куки вместе с запросом
             headers: this._headers,
             body: JSON.stringify(data)
         })
@@ -39,6 +42,7 @@ class Api {
         return fetch(`${this._commonUrl}/cards`, {
             method: 'POST',
             headers: this._headers,
+            credentials: 'include',// отправить куки вместе с запросом
             body: JSON.stringify(data)
         })
             .then(this._checkResponse);
@@ -47,6 +51,7 @@ class Api {
     addPhotoLike(id) {
         return fetch(`${this._commonUrl}/cards/${id}/likes`, {
             method: 'PUT',
+            credentials: 'include',// отправить куки вместе с запросом
             headers: this._headers
         })
             .then(this._checkResponse);
@@ -55,6 +60,7 @@ class Api {
     deletePhotoLike(id) {
         return fetch(`${this._commonUrl}/cards/${id}/likes`, {
             method: 'DELETE',
+            credentials: 'include',// отправить куки вместе с запросом
             headers: this._headers
         })
             .then(this._checkResponse);
@@ -64,12 +70,14 @@ class Api {
         return fetch(`${this._commonUrl}/cards/${id}/likes`, {
             method: !isLiked ? "DELETE" : "PUT",
             headers: this._headers,
+            credentials: 'include',// отправить куки вместе с запросом
         }).then( this._checkResponse);
     }
 
     deleteCard(id) {
         return fetch(`${this._commonUrl}/cards/${id}`, {
             method: 'DELETE',
+            credentials: 'include',// отправить куки вместе с запросом
             headers: this._headers
         })
             .then(this._checkResponse);
@@ -79,6 +87,7 @@ class Api {
         return fetch(`${this._commonUrl}/users/me/avatar`, {
             method: 'PATCH',
             headers: this._headers,
+            credentials: 'include',
             body: JSON.stringify( data )
         })
             .then(this._checkResponse);
@@ -87,7 +96,7 @@ class Api {
 
 const api = new Api({
     //url: "nomoreparties.co/v1/cohort-64",
-    url: "https://localhost:3000",
+    url: "http://localhost:3000",
     headers: {
         'Content-Type': 'application/json',
         //authorization: 'b3214215-bdfc-4688-a4e7-22854e57a120'

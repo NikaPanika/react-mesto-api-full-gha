@@ -45,7 +45,7 @@ function App() {
       });
     api.getInitialCards()
       .then((initialCards) => {
-        setCards(initialCards);
+        setCards(initialCards.data);
       }).catch((err) => {
         console.log(`Ошибка cards: ${err}`)
       });
@@ -78,14 +78,13 @@ function App() {
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-
+    const isLiked = card.likes.some(i => i === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
-          state.map((c) => c._id === card._id ? newCard : c));
+          state.map((c) => c._id === card._id ? newCard.data : c));
       }).catch((err) => {
         console.log(`Ошибка cards: ${err}`)
       });
@@ -96,8 +95,7 @@ function App() {
     api
       .deleteCard(card._id)
       .then(() => {
-        setCards((state) =>
-          state.filter((c) => c._id !== card._id));
+        setCards((state) => state.filter((c) => c._id !== card._id));
       }).catch((err) => {
         console.log(`Ошибка cards: ${err}`)
       });
@@ -114,6 +112,7 @@ function App() {
   }
 
   function handleUpdateAvatar(link) {
+
     api
       .setAvatar(link)
       .then((res) => {
@@ -128,7 +127,7 @@ function App() {
     api
       .addCard(data)
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups();
       })
       .catch(console.error);
@@ -137,16 +136,16 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("jwt")) {
+    //if (localStorage.getItem("jwt")) {
       auth
         .checkToken()
         .then((res) => {
           setIsLogged(true);
           navigate("/", { replace: true });
-          setUserEmail(res.data.email);
+          setUserEmail(res.email);
         })
         .catch(console.error);
-    }
+    //}
   }, []);
 
 
@@ -162,7 +161,7 @@ function App() {
         setUserEmail(email);
         setIsLogged(true);
         navigate("/", { replace: true });
-        localStorage.setItem("jwt", res.token);
+        //localStorage.setItem("jwt", res.token);
       })
       .catch((err) => {
         console.log(err);
@@ -190,7 +189,7 @@ function App() {
   }
 
   function onSignOut() {
-    localStorage.removeItem("jwt");
+    //localStorage.removeItem("jwt");
     setUserEmail("");
   }
 
