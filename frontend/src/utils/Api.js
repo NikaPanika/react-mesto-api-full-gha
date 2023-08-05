@@ -12,6 +12,7 @@ class Api {
     }
 
     getUser() {
+        console.log(this._headers);
         return fetch(`${this._commonUrl}/users/me`, {
             method: 'GET',
             headers: this._headers
@@ -19,6 +20,7 @@ class Api {
     }
 
     getInitialCards() {
+        console.log(this._headers);
         return fetch(`${this._commonUrl}/cards`, {
             method: 'GET',
             headers: this._headers

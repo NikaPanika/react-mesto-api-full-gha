@@ -53,6 +53,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (isLogged) {
       api.getUser()
         .then((userData) => {
           setCurrentUser(userData);
@@ -66,7 +67,8 @@ function App() {
         }).catch((err) => {
           console.log(`Ошибка cards: ${err}`)
         })
-  }, []);
+    };
+  }, [isLogged]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
