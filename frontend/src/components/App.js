@@ -36,6 +36,20 @@ function App() {
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
+    //if (localStorage.getItem("jwt")) {
+      auth
+        .checkToken()
+        .then((res) => {
+          setIsLogged(true);
+          navigate("/", { replace: true });
+          setUserEmail(res.email);
+          setCurrentUser(res);
+        })
+        .catch(console.error);
+    //}
+  }, []);
+
+  useEffect(() => {
     api.getUser()
       .then((userData) => {
         setCurrentUser(userData);
@@ -49,7 +63,7 @@ function App() {
       }).catch((err) => {
         console.log(`Ошибка cards: ${err}`)
       });
-  }, []);
+  }, [isLogged]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -134,20 +148,6 @@ function App() {
   }
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    //if (localStorage.getItem("jwt")) {
-      auth
-        .checkToken()
-        .then((res) => {
-          setIsLogged(true);
-          navigate("/", { replace: true });
-          setUserEmail(res.email);
-        })
-        .catch(console.error);
-    //}
-  }, []);
-
 
   const [userEmail, setUserEmail] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
