@@ -36,9 +36,10 @@ function App() {
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
-    //if (localStorage.getItem("jwt")) {
+    const token = localStorage.getItem("jwt");
+    if (token) {
     auth
-      .checkToken()
+      .checkToken(token)
       .then((res) => {
         if (res) {
           setIsLogged(true);
@@ -48,7 +49,7 @@ function App() {
         }
       })
       .catch(console.error);
-    //}
+    }
   }, []);
 
   useEffect(() => {
@@ -162,10 +163,11 @@ function App() {
     auth
       .login({ email, password })
       .then((res) => {
+        console.log(res);
         setUserEmail(email);
         setIsLogged(true);
         navigate("/", { replace: true });
-        //localStorage.setItem("jwt", res.token);
+        localStorage.setItem("jwt", res.token);
       })
       .catch((err) => {
         console.log(err);
@@ -173,8 +175,7 @@ function App() {
   }
 
   function handleRegister({ email, password }) {
-    console.log(email);
-    console.log(password);
+
     auth
       .register({ email, password })
       .then(() => {

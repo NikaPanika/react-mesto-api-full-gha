@@ -27,7 +27,7 @@ export const login = ({ email, password }) => {
   }).then((res) => checkResponce(res));
 };
 
-export const checkToken = () => {
+/* export const checkToken = () => {
   return fetch(`${baseUrl}/users/me`, {
     method: "GET",
     credentials: 'include',
@@ -40,4 +40,4 @@ export const checkToken = () => {
       "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
     },
   }).then((res) => checkResponce(res));
-};
+}; */
