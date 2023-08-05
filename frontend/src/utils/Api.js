@@ -95,8 +95,8 @@ class Api {
 }
 
 const api = new Api({
-    //url: "nomoreparties.co/v1/cohort-64",
-    url: "http://localhost:3000",
+    url: "https://api.mestogallery.nomoreparties.co",
+    //url: "http://localhost:3000",
     headers: {
         'Content-Type': 'application/json',
         //authorization: 'b3214215-bdfc-4688-a4e7-22854e57a120'

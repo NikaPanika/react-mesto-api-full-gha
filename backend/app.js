@@ -28,6 +28,8 @@ const limiter = rateLimit({
 app.use(cors({
   origin: [
     'http://localhost:3001',
+    'https://mestogallery.nomoreparties.co',
+
   ],
   credentials: true, // разрешить куки
 }));
