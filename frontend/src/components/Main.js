@@ -11,8 +11,9 @@ function Main({
     onCardLike,
     onCardDelete,
     cards }) {
-
+        
     const UserContext = React.useContext(CurrentUserContext);
+
     return (
         <main className="main">
             <section className="profile">

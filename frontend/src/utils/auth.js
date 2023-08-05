@@ -1,16 +1,16 @@
-export const baseUrl = "https://api.mestogallery.nomoreparties.co";
-//export const baseUrl = "http://localhost:3000";
+//export const baseUrl = "https://api.mestogallery.nomoreparties.co";
+export const baseUrl = "http://localhost:3000";
 
 const checkResponce = (res) =>
   res.ok ? res.json() : Promise.reject(res.status);
 
 export const register = ({ email, password }) => {
-  console.log(email);
   return fetch(`${baseUrl}/signup`, {
     method: "POST",
     //credentials: "include",
     headers: {
-      "Content-Type": "application/json",
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
   }).then((res) => checkResponce(res));
@@ -21,7 +21,8 @@ export const login = ({ email, password }) => {
     method: "POST",
     //credentials: 'include',// отправить куки вместе с запросом
     headers: {
-      "Content-Type": "application/json",
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
   }).then((res) => checkResponce(res));
@@ -34,10 +35,11 @@ export const checkToken = (token) => {
     headers: {
       //"Content-Type": "application/json",
       //'Access-Control-Allow-Credentials': 'true'
-      Authorization: `Bearer ${token}`,
       //"Accept": "application/json",
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
       //"Authorization": `Bearer ${localStorage.getItem("jwt")}`,
     },
-  }).then((res) => checkResponce(res));
+  }).then((res) => checkResponce(res))
+    .then((data) => data);
 };

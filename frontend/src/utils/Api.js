@@ -12,7 +12,6 @@ class Api {
     }
 
     getUser() {
-        console.log(this._headers);
         return fetch(`${this._commonUrl}/users/me`, {
             method: 'GET',
             headers: this._headers
@@ -20,7 +19,6 @@ class Api {
     }
 
     getInitialCards() {
-        console.log(this._headers);
         return fetch(`${this._commonUrl}/cards`, {
             method: 'GET',
             headers: this._headers
@@ -66,7 +64,7 @@ class Api {
         return fetch(`${this._commonUrl}/cards/${id}/likes`, {
             method: !isLiked ? "DELETE" : "PUT",
             headers: this._headers,
-        }).then( this._checkResponse);
+        }).then(this._checkResponse);
     }
 
     deleteCard(id) {
@@ -81,20 +79,20 @@ class Api {
         return fetch(`${this._commonUrl}/users/me/avatar`, {
             method: 'PATCH',
             headers: this._headers,
-            body: JSON.stringify( data )
+            body: JSON.stringify(data)
         })
             .then(this._checkResponse);
     }
 }
 
 const api = new Api({
-    url: "https://api.mestogallery.nomoreparties.co",
-    //url: "http://localhost:3000",
-    //headers: {
+    //url: "https://api.mestogallery.nomoreparties.co",
+    url: "http://localhost:3000",
+    headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem("jwt")}`,
         //'Access-Control-Allow-Credentials': 'true'
-   // }
+    }
 });
 
 export default api;

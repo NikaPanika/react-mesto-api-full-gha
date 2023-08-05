@@ -35,20 +35,21 @@ function App() {
 
   const [isLogged, setIsLogged] = useState(false);
 
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-    auth
-      .checkToken(token)
-      .then((res) => {
-        if (res) {
-          setIsLogged(true);
-          navigate("/", { replace: true });
-          setUserEmail(res.email);
-          setCurrentUser(res);
-        }
-      })
-      .catch(console.error);
+      auth
+        .checkToken(token)
+        .then((res) => {
+          if (res) {
+            setIsLogged(true);
+            navigate("/", { replace: true });
+            setUserEmail(res.email);
+          }
+        })
+        .catch(console.error);
     }
   }, []);
 
@@ -61,6 +62,7 @@ function App() {
         .catch((err) => {
           console.log(`Ошибка profile: ${err}`)
         });
+
       api.getInitialCards()
         .then((initialCards) => {
           setCards(initialCards.data);
@@ -152,7 +154,6 @@ function App() {
       .catch(console.error);
   }
 
-  const navigate = useNavigate();
 
   const [userEmail, setUserEmail] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
@@ -163,11 +164,10 @@ function App() {
     auth
       .login({ email, password })
       .then((res) => {
-        console.log(res);
         setUserEmail(email);
         setIsLogged(true);
         navigate("/", { replace: true });
-        localStorage.setItem("jwt", res.token);
+        localStorage.setItem("jwt", res.jwt);
       })
       .catch((err) => {
         console.log(err);
@@ -194,7 +194,7 @@ function App() {
   }
 
   function onSignOut() {
-    //localStorage.removeItem("jwt");
+    localStorage.removeItem("jwt");
     setUserEmail("");
   }
 

@@ -17,7 +17,7 @@ const auth = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, JWT_SECRET);
+    payload = jwt.verify(token, JWT_SECRET, { expiresIn: '7d' });
   } catch (err) {
     throw new AuthError('Сначала авторизируйтесь');
   }
