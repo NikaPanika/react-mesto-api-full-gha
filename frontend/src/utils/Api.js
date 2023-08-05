@@ -90,7 +90,7 @@ const api = new Api({
     //url: "http://localhost:3000",
     headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
         //'Access-Control-Allow-Credentials': 'true'
     }
 });
