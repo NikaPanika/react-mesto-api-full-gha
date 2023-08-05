@@ -8,6 +8,7 @@ export const register = ({ email, password }) => {
   console.log(email);
   return fetch(`${baseUrl}/signup`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -31,9 +32,12 @@ export const checkToken = () => {
     method: "GET",
     credentials: 'include',
     headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Credentials': 'true'
+      //"Content-Type": "application/json",
+      //'Access-Control-Allow-Credentials': 'true'
       //Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
     },
   }).then((res) => checkResponce(res));
 };

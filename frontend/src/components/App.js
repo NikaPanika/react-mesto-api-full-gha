@@ -37,32 +37,36 @@ function App() {
 
   useEffect(() => {
     //if (localStorage.getItem("jwt")) {
-      auth
-        .checkToken()
-        .then((res) => {
+    auth
+      .checkToken()
+      .then((res) => {
+        if (res) {
           setIsLogged(true);
           navigate("/", { replace: true });
           setUserEmail(res.email);
           setCurrentUser(res);
-        })
-        .catch(console.error);
+        }
+      })
+      .catch(console.error);
     //}
   }, []);
 
   useEffect(() => {
-    api.getUser()
-      .then((userData) => {
-        setCurrentUser(userData);
-      })
-      .catch((err) => {
-        console.log(`Ошибка profile: ${err}`)
-      });
-    api.getInitialCards()
-      .then((initialCards) => {
-        setCards(initialCards.data);
-      }).catch((err) => {
-        console.log(`Ошибка cards: ${err}`)
-      });
+    if (isLogged) {
+      api.getUser()
+        .then((userData) => {
+          setCurrentUser(userData);
+        })
+        .catch((err) => {
+          console.log(`Ошибка profile: ${err}`)
+        });
+      api.getInitialCards()
+        .then((initialCards) => {
+          setCards(initialCards.data);
+        }).catch((err) => {
+          console.log(`Ошибка cards: ${err}`)
+        })
+    };
   }, [isLogged]);
 
   function handleEditAvatarClick() {

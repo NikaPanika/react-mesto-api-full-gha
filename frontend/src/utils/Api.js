@@ -94,14 +94,14 @@ class Api {
     }
 }
 
-const api = new Api({
-    url: "https://api.mestogallery.nomoreparties.co",
+const api = new Api("https://api.mestogallery.nomoreparties.co", {
+    //url: "https://api.mestogallery.nomoreparties.co",
     //url: "http://localhost:3000",
-    headers: {
+    //headers: {
         'Content-Type': 'application/json',
         //authorization: 'b3214215-bdfc-4688-a4e7-22854e57a120'
-        'Access-Control-Allow-Credentials': 'true'
-    }
-})
+        //'Access-Control-Allow-Credentials': 'true'
+   // }
+});
 
 export default api;
