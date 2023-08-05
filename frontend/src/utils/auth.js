@@ -8,7 +8,7 @@ export const register = ({ email, password }) => {
   console.log(email);
   return fetch(`${baseUrl}/signup`, {
     method: "POST",
-    credentials: "include",
+    //credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -19,7 +19,7 @@ export const register = ({ email, password }) => {
 export const login = ({ email, password }) => {
   return fetch(`${baseUrl}/signin`, {
     method: "POST",
-    credentials: 'include',// отправить куки вместе с запросом
+    //credentials: 'include',// отправить куки вместе с запросом
     headers: {
       "Content-Type": "application/json",
     },
@@ -27,17 +27,17 @@ export const login = ({ email, password }) => {
   }).then((res) => checkResponce(res));
 };
 
-/* export const checkToken = () => {
+export const checkToken = (token) => {
   return fetch(`${baseUrl}/users/me`, {
     method: "GET",
-    credentials: 'include',
+    //credentials: 'include',
     headers: {
       //"Content-Type": "application/json",
       //'Access-Control-Allow-Credentials': 'true'
-      //Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      "Accept": "application/json",
+      Authorization: `Bearer ${token}`,
+      //"Accept": "application/json",
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+      //"Authorization": `Bearer ${localStorage.getItem("jwt")}`,
     },
   }).then((res) => checkResponce(res));
-}; */
+};
