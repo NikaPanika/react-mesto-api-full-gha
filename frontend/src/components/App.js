@@ -55,6 +55,7 @@ function App() {
 
   useEffect(() => {
     if (isLogged) {
+      console.log(localStorage);
       api.getUser()
         .then((userData) => {
           setCurrentUser(userData);

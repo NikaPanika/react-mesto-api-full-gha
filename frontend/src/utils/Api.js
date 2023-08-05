@@ -91,8 +91,8 @@ const api = new Api({
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+        
         //'Access-Control-Allow-Credentials': 'true'
     }
 });
-
 export default api;
