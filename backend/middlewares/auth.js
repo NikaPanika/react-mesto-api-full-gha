@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const AuthError = require('../erorrs/authError');
 
 const { NODE_ENV } = process.env;
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET = 'strange-secret-key' } = process.env;
 
 /* const JWT_SECRET = 'strange-secret-key'; */
 

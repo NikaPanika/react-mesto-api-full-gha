@@ -11,8 +11,7 @@ router.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
-  })
-    .unknown(true),
+  }),
 }), login);
 
 router.post('/signup', celebrate({
@@ -22,8 +21,7 @@ router.post('/signup', celebrate({
     avatar: Joi.string().regex(regularExpression),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
-  })
-    .unknown(true),
+  }),
 }), createUser);
 
 router.use(auth);

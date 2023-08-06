@@ -6,11 +6,12 @@ const User = require('../models/user');
 const AuthError = require('../erorrs/authError');
 const DuplicationError = require('../erorrs/dataDuplication');
 const NotFoundError = require('../erorrs/notFound');
+const BadRequest = require('../erorrs/badRequest');
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET = 'strange-secret-key' } = process.env;
+const { NODE_ENV } = process.env;
 
 const {
-  HTTP_STATUS_OK,
   HTTP_STATUS_CREATED,
 } = http2.constants;
 
@@ -31,6 +32,8 @@ const createUser = (req, res, next) => {
         .catch((err) => {
           if (err.code === 11000) {
             next(new DuplicationError('Пользователь с таким Email уже существует'));
+          } else if (err.name === 'ValidationError') {
+            next(new BadRequest('Невалидные данные'));
           } else {
             next(err);
           }
@@ -53,7 +56,7 @@ const login = (req, res, next) => {
           }
           const token = jwt.sign(
             { id: user._id },
-            JWT_SECRET,
+            NODE_ENV === 'production' ? JWT_SECRET : 'strange-secret-key',
             { expiresIn: '7d' },
           );
           return res.send({ jwt: token });
@@ -67,7 +70,7 @@ const getUser = (req, res, next) => {
   const { id } = req.user;
   User.findById(id)
     .then((user) => {
-      res.status(HTTP_STATUS_OK).send(user);
+      res.send(user);
     })
     .catch(next);
 };
@@ -85,7 +88,7 @@ const returnUserById = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
-      res.status(HTTP_STATUS_OK).send(user);
+      res.send(user);
     })
     .catch(next);
 };
@@ -99,9 +102,15 @@ const updateProfile = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
-      res.status(HTTP_STATUS_OK).send(user);
+      res.send(user);
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequest('Невалидные данные'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const updateAvatar = (req, res, next) => {
@@ -114,7 +123,13 @@ const updateAvatar = (req, res, next) => {
       }
       return res.send(user);
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequest('Невалидные данные'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports = {

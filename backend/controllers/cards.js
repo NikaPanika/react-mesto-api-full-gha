@@ -3,9 +3,9 @@ const Card = require('../models/card');
 
 const NotFoundError = require('../erorrs/notFound');
 const ForbiddenError = require('../erorrs/forbiddenError');
+const BadRequest = require('../erorrs/badRequest');
 
 const {
-  HTTP_STATUS_OK,
   HTTP_STATUS_CREATED,
 } = http2.constants;
 
@@ -14,7 +14,13 @@ const createCard = (req, res, next) => {
   const owner = req.user.id;
   Card.create({ name, link, owner })
     .then((card) => res.status(HTTP_STATUS_CREATED).send({ data: card }))
-    .catch(next);
+    .catch((error) => {
+      if (error.name === 'ValidationError') {
+        next(new BadRequest('Невалидные данные'));
+      } else {
+        next(error);
+      }
+    });
 };
 
 const returnCards = (req, res, next) => {
@@ -52,7 +58,7 @@ const likeCard = (req, res, next) => {
   )
     .orFail(new Error('NotValidId'))
     .then((card) => {
-      res.status(HTTP_STATUS_OK).send({ data: card });
+      res.send({ data: card });
     })
     .catch((err) => {
       if (err.message === 'NotValidId') {
@@ -72,7 +78,7 @@ const dislikeCard = (req, res, next) => {
   )
     .orFail(new Error('NotValidId'))
     .then((card) => {
-      res.status(HTTP_STATUS_OK).send({ data: card });
+      res.send({ data: card });
     })
     .catch((err) => {
       if (err.message === 'NotValidId') {

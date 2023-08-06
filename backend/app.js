@@ -35,12 +35,12 @@ app.use(cors({
   credentials: true, // разрешить куки
 }));
 
-// Apply the rate limiting middleware to all requests
-app.use(limiter);
-
 app.use(cookieParser());
 
 app.use(requestLogger);
+
+// Apply the rate limiting middleware to all requests
+app.use(limiter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
