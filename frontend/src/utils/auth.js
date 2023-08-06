@@ -1,5 +1,5 @@
-//export const baseUrl = "https://api.mestogallery.nomoreparties.co";
-export const baseUrl = 'http://localhost:3000';
+export const baseUrl = "https://api.mestogallery.nomoreparties.co";
+//export const baseUrl = 'http://localhost:3000';
 
 const checkResponce = (res) =>
   res.ok ? res.json() : Promise.reject(res.status);
@@ -32,7 +32,6 @@ export const checkToken = (token) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
-      //"Authorization": `Bearer ${localStorage.getItem("jwt")}`,
     },
   })
     .then((res) => checkResponce(res))
