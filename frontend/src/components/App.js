@@ -167,8 +167,8 @@ function App() {
       .then((res) => {
         setUserEmail(email);
         setIsLogged(true);
-        navigate("/", { replace: true });
         localStorage.setItem("jwt", res.jwt);
+        navigate("/", { replace: true });
       })
       .catch((err) => {
         console.log(err);
