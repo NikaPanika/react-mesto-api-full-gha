@@ -9,16 +9,14 @@ import api from '../utils/Api.js';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import Login from "./Login";
-import { ProtectedRoute } from "./ProtectedRoute";
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import * as auth from "../utils/auth";
+import Login from './Login';
+import { ProtectedRoute } from './ProtectedRoute';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import * as auth from '../utils/auth';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
 
-
 function App() {
-
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
 
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -36,16 +34,16 @@ function App() {
   const [isLogged, setIsLogged] = useState(false);
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem('jwt');
     if (token) {
       auth
         .checkToken(token)
         .then((res) => {
           if (res) {
             setIsLogged(true);
-            navigate("/", { replace: true });
+            navigate('/', { replace: true });
             setUserEmail(res.email);
           }
         })
@@ -55,40 +53,42 @@ function App() {
 
   useEffect(() => {
     if (isLogged) {
-      console.log(localStorage);
-      api.getUser()
+      api
+        .getUser()
         .then((userData) => {
           setCurrentUser(userData);
         })
         .catch((err) => {
-          console.log(`Ошибка profile: ${err}`)
+          console.log(`Ошибка profile: ${err}`);
         });
 
-      api.getInitialCards()
+      api
+        .getInitialCards()
         .then((initialCards) => {
           setCards(initialCards.data);
-        }).catch((err) => {
-          console.log(`Ошибка cards: ${err}`)
         })
-    };
+        .catch((err) => {
+          console.log(`Ошибка cards: ${err}`);
+        });
+    }
   }, [isLogged]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
-  };
+  }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
-  };
+  }
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
-  };
+  }
 
   function handleCardClick(card) {
     setSelectedCard(card);
     setIsImagePopupOpen(true);
-  };
+  }
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
@@ -100,15 +100,17 @@ function App() {
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
-          state.map((c) => c._id === card._id ? newCard.data : c));
-      }).catch((err) => {
-        console.log(`Ошибка cards: ${err}`)
+          state.map((c) => (c._id === card._id ? newCard.data : c))
+        );
+      })
+      .catch((err) => {
+        console.log(`Ошибка cards: ${err}`);
       });
   }
 
@@ -118,8 +120,9 @@ function App() {
       .deleteCard(card._id)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== card._id));
-      }).catch((err) => {
-        console.log(`Ошибка cards: ${err}`)
+      })
+      .catch((err) => {
+        console.log(`Ошибка cards: ${err}`);
       });
   }
 
@@ -130,17 +133,15 @@ function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch(console.error)
+      .catch(console.error);
   }
 
   function handleUpdateAvatar(link) {
-
     api
       .setAvatar(link)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
-
       })
       .catch(console.error);
   }
@@ -155,39 +156,37 @@ function App() {
       .catch(console.error);
   }
 
-
-  const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState('');
   const [isRegistered, setIsRegistered] = useState(false);
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [isLoginConfirmed, setIsLoginConfirmed] = useState(false);
 
   function handleLogin({ email, password }) {
     auth
       .login({ email, password })
       .then((res) => {
+        localStorage.setItem('jwt', res.jwt);
         setUserEmail(email);
         setIsLogged(true);
-        localStorage.setItem("jwt", res.jwt);
-        navigate("/", { replace: true });
+        navigate('/', { replace: true });
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }
 
   function handleRegister({ email, password }) {
-
     auth
       .register({ email, password })
       .then(() => {
-        navigate("/sign-in", { replace: true });
+        navigate('/sign-in', { replace: true });
         setIsRegistered(true);
-        setText("Вы успешно зарегистрировались!");
+        setText('Вы успешно зарегистрировались!');
       })
       .catch((err) => {
         console.log(err);
         setIsRegistered(false);
-        setText("Что-то пошло не так! Попробуйте ещё раз.");
+        setText('Что-то пошло не так! Попробуйте ещё раз.');
       })
       .finally(() => {
         setIsLoginConfirmed(true);
@@ -195,8 +194,8 @@ function App() {
   }
 
   function onSignOut() {
-    localStorage.removeItem("jwt");
-    setUserEmail("");
+    localStorage.removeItem('jwt');
+    setUserEmail('');
   }
 
   return (
@@ -221,7 +220,9 @@ function App() {
         />
         <Route
           path="*"
-          element={isLogged ? (<Navigate to="/" />) : (<Navigate to="/sign-up" replace />)}
+          element={
+            isLogged ? <Navigate to="/" /> : <Navigate to="/sign-up" replace />
+          }
         />
 
         <Route
@@ -229,9 +230,9 @@ function App() {
           element={
             <Register
               onSubmit={handleRegister}
-              title={"Регистрация"}
-              formName={"sign-up"}
-              buttonName={"Зарегистрироваться"}
+              title={'Регистрация'}
+              formName={'sign-up'}
+              buttonName={'Зарегистрироваться'}
             />
           }
         />
@@ -241,9 +242,9 @@ function App() {
           element={
             <Login
               onSubmit={handleLogin}
-              title={"Вход"}
-              formName={"sign-in"}
-              buttonName={"Войти"}
+              title={'Вход'}
+              formName={'sign-in'}
+              buttonName={'Войти'}
             />
           }
         />
@@ -253,35 +254,45 @@ function App() {
         name={'confirmation'}
         onClose={closeAllPopups}
         text={text}
-        isRegistered={isRegistered} />
+        isRegistered={isRegistered}
+      />
       <Footer />
       <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-        onUpdateUser={handleUpdateUser} />
+        onUpdateUser={handleUpdateUser}
+      />
       <AddPlacePopup
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-        onAddPlace={handleAddPlaceSubmit} />
+        onAddPlace={handleAddPlaceSubmit}
+      />
       <EditAvatarPopup
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-        onUpdateAvatar={handleUpdateAvatar} />
+        onUpdateAvatar={handleUpdateAvatar}
+      />
       <ImagePopup
         card={selectedCard}
         isOpen={isImagePopupOpen}
-        onClose={closeAllPopups} />
+        onClose={closeAllPopups}
+      />
       <div className="popup popup-delete">
         <div className="popup__container">
           <form className="popup__form popup__form_popup-delete">
             <button className="popup__close-button" type="button"></button>
             <h2 className="popup__header popup-delete__header">Вы уверены?</h2>
-            <button className="popup__save-button popup-delete__save-button" type="submit">Да</button>
+            <button
+              className="popup__save-button popup-delete__save-button"
+              type="submit"
+            >
+              Да
+            </button>
           </form>
         </div>
       </div>
     </CurrentUserContext.Provider>
   );
-};
+}
 
 export default App;
