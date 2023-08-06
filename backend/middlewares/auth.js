@@ -1,15 +1,18 @@
 const jwt = require('jsonwebtoken');
 const AuthError = require('../erorrs/authError');
 
-/* const { NODE_ENV } = process.env;
-const { JWT_SECRET } = process.env; */
+const { NODE_ENV } = process.env;
+const { JWT_SECRET } = process.env;
 
-const JWT_SECRET = 'strange-secret-key';
+/* const JWT_SECRET = 'strange-secret-key'; */
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
-  /* const token = req.cookies.jwt; */
+
   const bearer = 'Bearer ';
+
+  console.log(NODE_ENV);
+  console.log(JWT_SECRET);
   if (!authorization || !authorization.startsWith(bearer)) {
     throw new AuthError('Сначала авторизируйтесь');
   }
@@ -17,7 +20,7 @@ const auth = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, JWT_SECRET, { expiresIn: '7d' });
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'strange-secret-key', { expiresIn: '7d' });
   } catch (err) {
     throw new AuthError('Сначала авторизируйтесь');
   }
