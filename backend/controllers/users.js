@@ -7,7 +7,7 @@ const AuthError = require('../erorrs/authError');
 const DuplicationError = require('../erorrs/dataDuplication');
 const NotFoundError = require('../erorrs/notFound');
 
-const JWT_SECRET = 'strange-secret-key';
+const { JWT_SECRET } = process.env;
 
 const {
   HTTP_STATUS_OK,
@@ -56,12 +56,6 @@ const login = (req, res, next) => {
             JWT_SECRET,
             { expiresIn: '7d' },
           );
-          /*  res.cookie('jwt', token, {
-             maxAge: 3600000 * 24 * 7,
-             sameSite: 'none',
-             secure: true,
-           }) */
-          /* .send({ id: user._id }); */
           return res.send({ jwt: token });
         })
         .catch(next);

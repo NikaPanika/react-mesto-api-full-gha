@@ -11,8 +11,6 @@ const auth = (req, res, next) => {
 
   const bearer = 'Bearer ';
 
-  console.log(NODE_ENV);
-  console.log(JWT_SECRET);
   if (!authorization || !authorization.startsWith(bearer)) {
     throw new AuthError('Сначала авторизируйтесь');
   }
@@ -20,7 +18,7 @@ const auth = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'strange-secret-key', { expiresIn: '7d' });
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'strange-secret-key');
   } catch (err) {
     throw new AuthError('Сначала авторизируйтесь');
   }
