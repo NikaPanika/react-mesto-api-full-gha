@@ -45,7 +45,10 @@ class Api {
   addCard(data) {
     return fetch(`${this._commonUrl}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
       body: JSON.stringify(data),
     }).then(this._checkResponse);
   }
@@ -53,47 +56,60 @@ class Api {
   addPhotoLike(id) {
     return fetch(`${this._commonUrl}/cards/${id}/likes`, {
       method: 'PUT',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
     }).then(this._checkResponse);
   }
 
   deletePhotoLike(id) {
     return fetch(`${this._commonUrl}/cards/${id}/likes`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
     }).then(this._checkResponse);
   }
 
   changeLikeCardStatus(id, isLiked) {
     return fetch(`${this._commonUrl}/cards/${id}/likes`, {
       method: !isLiked ? 'DELETE' : 'PUT',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
     }).then(this._checkResponse);
   }
 
   deleteCard(id) {
     return fetch(`${this._commonUrl}/cards/${id}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
     }).then(this._checkResponse);
   }
 
   setAvatar(data) {
     return fetch(`${this._commonUrl}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
       body: JSON.stringify(data),
     }).then(this._checkResponse);
   }
 }
 
 const api = new Api({
-   url: "https://api.mestogallery.nomoreparties.co",
+  url: "https://api.mestogallery.nomoreparties.co",
   //url: 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
-
-    //'Access-Control-Allow-Credentials': 'true'
   },
 });
 export default api;
