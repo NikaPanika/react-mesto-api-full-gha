@@ -116,7 +116,7 @@ const updateProfile = (req, res, next) => {
 const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const { id } = req.user;
-  User.findByIdAndUpdate(id, { avatar })
+  User.findByIdAndUpdate(id, { avatar }, { new: true, runValidators: true, upsert: false })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
